@@ -26,28 +26,44 @@ class App extends Component {
         ]
       
      };
+     
      this.onNewMessage = this.onNewMessage.bind(this);
+     this.socket = new WebSocket(`ws://${window.location.hostname}:3001`)
  }
 
 
-//just for fun
-componentDidMount() {
-  setTimeout(() => {
-  const newMessage = {id: 3, username: 'Andrea', content: 'Hello, there!'};
-  const messages = this.state.messages.concat(newMessage)
-  this.setState({messages:messages})
-}, 1000);
-}
+  componentDidMount() {
 
-// dynamic content
-onNewMessage(content){
-  setTimeout(() => {
-    console.log("Simulating incoming message");
-    const newMessage = {id:this.state.messages.length +1,username:this.state.currentUser.name, content: content};
-    const messagesWithNewMessage = this.state.messages.concat(newMessage);
-    this.setState({messages: messagesWithNewMessage})
-  }, 1000);
-}
+    setTimeout(() => {
+      const newMessage = {id: 3, username: 'Andrea', content: 'Hello, there!'};
+      const messages = this.state.messages.concat(newMessage)
+      this.setState({messages:messages})
+    }, 1000);
+
+    // this will listen for a message from the WebSocket, and console.log the data from that event.
+    this.socket.onmessage = function(event){ 
+      console.log(event.data); 
+    };
+
+    // some other stuff for later
+    // socket.onopen = () => socket.send('things in the thing, stuff in the stuff');
+
+    // socket.send("A message for you");
+    // socket.onopen = function(event) {
+    //   socket.send('NEW CONNECTION');
+    //   console.log('NEW')
+    // };
+
+  }
+
+  // dynamic content
+  onNewMessage(content){
+    setTimeout(() => {
+      const newMessage = {id:this.state.messages.length +1,username:this.state.currentUser.name, content: content};
+      const messagesWithNewMessage = this.state.messages.concat(newMessage);
+      this.setState({messages: messagesWithNewMessage})
+    }, 1000);
+  }
 
  
   render() {

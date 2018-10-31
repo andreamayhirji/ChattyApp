@@ -2,6 +2,12 @@ var webpack = require('webpack');
 var WebpackDevServer = require('webpack-dev-server');
 var config = require('./webpack.config');
 
+var socket = new WebSocket(`ws://${window.location.hostname}:3000`);
+
+socket.addEventListener('open', function(event) {
+  socket.send('NEW CONNECTION');
+});
+
 new WebpackDevServer(webpack(config), {
     publicPath: config.output.publicPath,
     watchOptions: {
@@ -17,3 +23,4 @@ new WebpackDevServer(webpack(config), {
 
     console.log('Running at http://0.0.0.0:3000');
   });
+
