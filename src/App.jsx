@@ -27,7 +27,7 @@ class App extends Component {
       
      };
      
-     this.onNewMessage = this.onNewMessage.bind(this);
+     this.addMessage = this.addMessage.bind(this);
      this.socket = new WebSocket(`ws://${window.location.hostname}:3001`)
  }
 
@@ -41,9 +41,12 @@ class App extends Component {
     }, 1000);
 
     // this will listen for a message from the WebSocket, and console.log the data from that event.
-    this.socket.onmessage = function(event){ 
-      console.log(event.data); 
-    };
+    // this.socket.onmessage = function(event){ 
+    //   console.log(event.data); 
+    // };
+    this.socket.onopen = function(event) {
+      console.log('Client connected to server');
+    }
 
     // some other stuff for later
     // socket.onopen = () => socket.send('things in the thing, stuff in the stuff');
@@ -57,13 +60,18 @@ class App extends Component {
   }
 
   // dynamic content
-  onNewMessage(content){
+  addMessage(content){
+    this.socket.send('something')
     setTimeout(() => {
       const newMessage = {id:this.state.messages.length +1,username:this.state.currentUser.name, content: content};
       const messagesWithNewMessage = this.state.messages.concat(newMessage);
       this.setState({messages: messagesWithNewMessage})
     }, 1000);
   }
+
+  // this.socket.on('message', function incoming(data) {
+  //   console.log()
+  // })
 
  
   render() {
@@ -74,7 +82,7 @@ class App extends Component {
           <a href="/" className="navbar-brand">Chatty</a>
         </nav>  
       <MessageList messages = { this.state.messages } />
-      <ChatBar currentUser= { this.state.currentUser.name } onNewMessage = {this.onNewMessage} />
+      <ChatBar currentUser= { this.state.currentUser.name } addMessage = {this.addMessage} />
       </div>
     );
   }
