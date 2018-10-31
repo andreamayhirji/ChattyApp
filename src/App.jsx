@@ -43,7 +43,7 @@ componentDidMount() {
 onNewMessage(content){
   setTimeout(() => {
     console.log("Simulating incoming message");
-    const newMessage = {id:this.state.messages.length +1, username:this.state.currentUser.name, content: content};
+    const newMessage = {id:this.state.messages.length +1,username:this.state.currentUser.name, content: content};
     const messagesWithNewMessage = this.state.messages.concat(newMessage);
     this.setState({messages: messagesWithNewMessage})
   }, 1000);

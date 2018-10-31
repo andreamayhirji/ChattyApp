@@ -15,7 +15,6 @@ class ChatBar extends Component {
             this.props.onNewMessage(event.target.value);
             //console.log('pressed enter');
             //console.log(event.target.value);
-            //return event.target.value
         }
     }
     render(){
