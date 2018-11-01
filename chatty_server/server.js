@@ -17,10 +17,10 @@ wss.on('connection', (ws) => {
     // console.log(id);
     
     ws.on('message', function (event) {
-        const msg = JSON.parse(event)
-        const id = uuidv4();
+        const msg = JSON.parse(event);
+        const uniqueId = uuidv4();
         const message = {
-            id: id,
+            id: uniqueId,
             currentUser: msg.username,
             content: msg.content
         }

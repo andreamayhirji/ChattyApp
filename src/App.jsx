@@ -34,12 +34,14 @@ class App extends Component {
       console.log('Client connected to server');
     }
 
-    this.socket.onmessage = function(event){
+    this.socket.onmessage = (event) => {
       console.log('what is the event', event)
+      const newMsg = JSON.parse(event.data);
+      console.log('newMsg:', newMsg);
       const newMessage = {
-        id: data.id,
-        username: data.currentUser, 
-        content: data.content
+        id: newMsg.id,
+        username: newMsg.currentUser, 
+        content: newMsg.content
       };
       const messagesWithNewMessage = this.state.messages.concat(newMessage);
       this.setState({messages: messagesWithNewMessage})
