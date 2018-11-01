@@ -48,6 +48,18 @@ class App extends Component {
       console.log('Client connected to server');
     }
 
+    //I WILL NEED THIS SOON
+    // this.socket.onmessage = function(event){
+    //   const newMessage = {
+    //     id:this.state.messages.length +1,
+    //     username:this.state.currentUser.name, 
+    //     content: content
+    //   };
+    //   const messagesWithNewMessage = this.state.messages.concat(newMessage);
+    //   this.setState({messages: messagesWithNewMessage})
+     
+    // }
+
     // some other stuff for later
     // socket.onopen = () => socket.send('things in the thing, stuff in the stuff');
 
@@ -61,13 +73,13 @@ class App extends Component {
 
   // dynamic content
   addMessage(content){
-    this.socket.send('something')
-    setTimeout(() => {
-      const newMessage = {id:this.state.messages.length +1,username:this.state.currentUser.name, content: content};
+      const newMessage = {username:this.state.currentUser.name, content: content};
+      this.socket.send(JSON.stringify(newMessage));
       const messagesWithNewMessage = this.state.messages.concat(newMessage);
       this.setState({messages: messagesWithNewMessage})
-    }, 1000);
   }
+
+
 
   // this.socket.on('message', function incoming(data) {
   //   console.log()
