@@ -8,23 +8,9 @@ class App extends Component {
  
   constructor(props){
     super(props);
-    // setting state should ONLY happen within constructor.
-    this.state = { 
-      
+    this.state = {
         currentUser: {name: "Bob"},
-        messages: [
-          {
-            id: 1,
-            username: "Bob",
-            content: "Has anyone seen my marbles?",
-          },
-          {
-            id: 2,
-            username: "Anonymous",
-            content: "No, I think you lost them. You lost your marbles Bob. You lost them for good."
-          }
-        ]
-      
+        messages: [] //messages from teh server will be stroed here
      };
      
      this.addMessage = this.addMessage.bind(this);
@@ -34,11 +20,11 @@ class App extends Component {
 
   componentDidMount() {
 
-    setTimeout(() => {
-      const newMessage = {id: 3, username: 'Andrea', content: 'Hello, there!'};
-      const messages = this.state.messages.concat(newMessage)
-      this.setState({messages:messages})
-    }, 1000);
+    // setTimeout(() => {
+    //   const newMessage = {id: 3, username: 'Andrea', content: 'Hello, there!'};
+    //   const messages = this.state.messages.concat(newMessage)
+    //   this.setState({messages:messages})
+    // }, 1000);
 
     // this will listen for a message from the WebSocket, and console.log the data from that event.
     // this.socket.onmessage = function(event){ 
@@ -48,17 +34,17 @@ class App extends Component {
       console.log('Client connected to server');
     }
 
-    //I WILL NEED THIS SOON
-    // this.socket.onmessage = function(event){
-    //   const newMessage = {
-    //     id:this.state.messages.length +1,
-    //     username:this.state.currentUser.name, 
-    //     content: content
-    //   };
-    //   const messagesWithNewMessage = this.state.messages.concat(newMessage);
-    //   this.setState({messages: messagesWithNewMessage})
+    this.socket.onmessage = function(event){
+      console.log('what is the event', event)
+      const newMessage = {
+        id: data.id,
+        username: data.currentUser, 
+        content: data.content
+      };
+      const messagesWithNewMessage = this.state.messages.concat(newMessage);
+      this.setState({messages: messagesWithNewMessage})
      
-    // }
+    }
 
     // some other stuff for later
     // socket.onopen = () => socket.send('things in the thing, stuff in the stuff');
@@ -75,8 +61,9 @@ class App extends Component {
   addMessage(content){
       const newMessage = {username:this.state.currentUser.name, content: content};
       this.socket.send(JSON.stringify(newMessage));
-      const messagesWithNewMessage = this.state.messages.concat(newMessage);
-      this.setState({messages: messagesWithNewMessage})
+
+      // const messagesWithNewMessage = this.state.messages.concat(newMessage);
+      // this.setState({messages: messagesWithNewMessage})
   }
 
 

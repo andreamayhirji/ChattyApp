@@ -1,5 +1,7 @@
+const uuidv4 = require('uuid/v4');
 const express = require('express');
 const SocketServer = require('ws').Server;
+const WebSocket = require('ws');
 
 const PORT = 3001;
 
@@ -11,19 +13,23 @@ const wss = new SocketServer({ server }); // create the WebSockets server
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
+    // var id = uuidv4();
+    // console.log(id);
     
     ws.on('message', function (event) {
-        var msg = JSON.parse(event)
+        const msg = JSON.parse(event)
+        const id = uuidv4();
+        const message = {
+            id: id,
+            currentUser: msg.username,
+            content: msg.content
+        }
 
-        // var message = {
-        //     username: msg.username,
-        //     content: msg.content
-        // }
-
-        console.log('received data:', msg.username, msg.content);
+        console.log(`id: ${ message.id } name: ${message.currentUser} text: ${message.content}`);
+       
         wss.clients.forEach(client => {
-            if (client.readyState === SocketServer.OPEN) {
-                client.send(message);
+            if (client.readyState === WebSocket.OPEN) {
+                client.send(JSON.stringify(message));
             }
         });
     });
