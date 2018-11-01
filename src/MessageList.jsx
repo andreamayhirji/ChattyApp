@@ -5,9 +5,14 @@ import Message from './Message.jsx';
 class MessageList extends Component {
     render() {
         const messages = this.props.messages.map(message => {
+            console.log('what is message on messagelist?', message)
+
             return <Message 
                     key={ message.id } 
-                    message={ message } /> 
+                    content={ message.content } 
+                    type={ message.type }
+                    username={ message.currentUser }
+                    /> 
         })
 
         return (
