@@ -5,6 +5,7 @@ import React, {Component} from 'react';
 class ChatBar extends Component {
     constructor(props){
         super(props);
+        
         // setting state should ONLY happen within constructor.
         this.handleKeyPress = this.handleKeyPress.bind(this);
         this.handleUsernameChange = this.handleUsernameChange.bind(this);

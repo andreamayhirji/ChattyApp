@@ -16,19 +16,13 @@ function broadcast(thing){
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(thing));
         }
-    })
-    // ws.on('open', function open(userCount){
-    //     const userCount = wss.clients.size;
-    //     console.log(wss.clients.size)
-    //     ws.send(userCount);
-    // });
+    });
 }
 
 
 wss.on('connection', (ws) => {
     console.log('Client connected');
-    console.log(`${wss.clients.size} clients online`) 
-
+    
     let usersOnline = ({
         type: 'usersOnline',
         content: wss.clients.size
