@@ -13,13 +13,11 @@ class MessageList extends Component {
                     type={ message.type }
                     username={ message.currentUser }
                     /> 
-        })
+        });
 
         return (
-            <main className="messages">
-                {messages}
-            </main>
-        )
+        <main className="messages">{messages}</main>
+        );
     }
 }
 

@@ -21,7 +21,7 @@ class Message extends Component {
                 return (
                 <div className="message system">{ this.props.content }</div>
                 )
-        }  
+        };  
     }  
 
     render(){

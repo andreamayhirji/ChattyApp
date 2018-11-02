@@ -23,14 +23,14 @@ class App extends Component {
 
   componentDidMount() {
 
-    this.socket.onopen = function(event) {
-      console.log('Client connected to server');
+    this.socket.onopen = function() {
+
     }
     this.socket.onmessage = (event) => {
       
-      let parsed = JSON.parse(event.data)
+      let parsed = JSON.parse(event.data);
       if(parsed.type === 'usersOnline' ) {
-        this.setState({ count:parsed.content })
+        this.setState({ count:parsed.content });
       } else {
         const messagesWithNewMessage = this.state.messages.concat(parsed);
         this.setState({messages: messagesWithNewMessage})
@@ -56,8 +56,8 @@ class App extends Component {
       type: 'postNotification',
       username: newUsername,
       content: `${ this.state.currentUser.name } has changed their name to ${ newUsername }`
-    }
-    this.setState( { currentUser: { name:newUsername } } )
+    };
+    this.setState( { currentUser: { name:newUsername } } );
     this.socket.send(JSON.stringify(newUser));
     }
 
