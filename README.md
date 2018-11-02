@@ -15,8 +15,19 @@ npm start
 open http://localhost:3000
 
 ```
+### Screenshots
 
+![Open Screen](https://github.com/andreamayhirji/ChattyApp/blob/master/docs/Open-screen.png)
 
+----------------
+
+![Change username](https://github.com/andreamayhirji/ChattyApp/blob/master/docs/Change-username.png)
+
+-----------------
+
+![Multiple users](https://github.com/andreamayhirji/ChattyApp/blob/master/docs/Multiple-users.png)
+
+-----------------
 
 ### Dependencies
 
