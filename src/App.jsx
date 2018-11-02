@@ -8,8 +8,9 @@ class App extends Component {
   constructor(props){
     super(props);
     this.state = {
-        currentUser: {name: "Anonymous"},
-        messages: [] //messages from the server will be stroed here
+        currentUser: {name: 'Anonymous'},
+        messages: [], //messages from the server will be stroed here
+        count: 0
      };
      
      this.addMessage = this.addMessage.bind(this);
@@ -18,6 +19,16 @@ class App extends Component {
  }
 
 
+//  this.socket.onmessage = (event) => {
+
+//   let usersOnline = JSON.parse(event)
+//   console.log('usersOnline',usersOnline);
+//   if(JSON.parse(event.type) === 'usersOnline' ) {
+//     console.log('inside');
+//     // this.setState({count:}
+
+//     }
+
 //Listeners that load and wait for an event to trigger them:
 
   componentDidMount() {
@@ -25,11 +36,17 @@ class App extends Component {
     this.socket.onopen = function(event) {
       console.log('Client connected to server');
     }
-
     this.socket.onmessage = (event) => {
-      const newMsg = JSON.parse(event.data);
-      const messagesWithNewMessage = this.state.messages.concat(newMsg);
-      this.setState({messages: messagesWithNewMessage})
+      
+      let parsed = JSON.parse(event.data)
+      console.log('parsed', parsed)
+
+      if(parsed.type === 'usersOnline' ) {
+        this.setState({ count:parsed.content })
+      } else {
+        const messagesWithNewMessage = this.state.messages.concat(parsed);
+        this.setState({messages: messagesWithNewMessage})
+      }
     }
   }
 
@@ -62,7 +79,7 @@ class App extends Component {
   render() {
     return (
       <div>
-      <NavBar />
+      <NavBar count={this.state.count} />
       <MessageList messages = { this.state.messages } />
       <ChatBar currentUser= { this.state.currentUser.name } addMessage = {this.addMessage} changeUsername = { this.changeUsername } />
       </div>

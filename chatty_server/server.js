@@ -16,10 +16,28 @@ function broadcast(thing){
         if (client.readyState === WebSocket.OPEN) {
             client.send(JSON.stringify(thing));
         }
-    });
+    })
+    // ws.on('open', function open(userCount){
+    //     const userCount = wss.clients.size;
+    //     console.log(wss.clients.size)
+    //     ws.send(userCount);
+    // });
 }
+
+
 wss.on('connection', (ws) => {
     console.log('Client connected');
+    console.log(`${wss.clients.size} clients online`) 
+
+    let usersOnline = ({
+        type: 'usersOnline',
+        content: wss.clients.size
+    })
+
+    wss.clients.forEach(client => {
+        client.send(JSON.stringify(usersOnline));
+    })
+
     ws.on('message', function (event) {
         const msg = JSON.parse(event);
         switch(msg.type) {
@@ -47,7 +65,8 @@ wss.on('connection', (ws) => {
         }
 
     });
-    
+
+
     ws.on('close', () => console.log('Client disconnected')); // set up a callback for when a client closes the socket (aka, closed their browser)
 });
 
